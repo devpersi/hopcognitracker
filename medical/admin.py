@@ -13,8 +13,6 @@ class QuestionAdmin(admin.ModelAdmin):
         if db_field.name == 'question_text':
             kwargs['widget'] = Textarea
         return super().formfield_for_dbfield(db_field, request, **kwargs)
-    
-admin.site.register(Answer)
 
 admin.site.register(QuestionCodeDescription)
 
