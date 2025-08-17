@@ -1,0 +1,33 @@
+{% extends "base_medical.html" %}
+
+{% block title%}{{ patient.last_name }} Patient Details{% endblock %}
+
+{% block content %}
+<h1>Patient: {{ patient.first_name }} {{ patient.last_name }}</h1>
+
+<container class="container">
+{% if patient.overseen_by_doctor %}
+    <h2>Overseen by doctor <a href="/medical/doctor/{{ patient.overseen_by_doctor.id }}/">{{ patient.overseen_by_doctor.first_name }} {{ patient.overseen_by_doctor.last_name }}</a></h2>
+{% else %}
+    <p>No doctor assigned.</p>
+{% endif %}
+</container>
+    
+<container class="container">
+<h2>Attempts</h2>
+{% if patient.attempts.all %}
+    <ul class="list-group">
+    {% for attempt in patient.attempts.all %}
+            <li class="list-group-item">
+                <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
+                <p>Status: {{ attempt.status }}</p>
+                <p>Scheduled for: {{ attempt.scheduled_for }}</p>
+                <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
+            </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No attempts available.</p>
+{% endif %}
+</container>
+{% endblock %}

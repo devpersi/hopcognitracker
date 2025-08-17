@@ -1,0 +1,18 @@
+{% extends "base_medical.html" %}
+
+{% block title %}Doctor List{% endblock %}
+
+{% block content %}
+<container class="container">
+<h1>Doctors</h1>
+{% if doctor_list %}
+    <ul class="list-group">
+    {% for doctor in doctor_list %}
+            <li class="list-group-item"><a href="/medical/doctor/{{ doctor.id }}/">{{ doctor.first_name }} {{ doctor.last_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No doctors available.</p>
+{% endif %}
+</container>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base_medical.html" %}
+
+{% block title %}Attempt List{% endblock %}
+
+{% block content %}<container class="container">
+<h1><a href="/medical/attempts/">Attempts</a></h1>
+{% if attempt_list and patient_list %}
+    <ul class="list-group">
+    {% for patient in patient_list %}
+        <li class="list-group-item">
+            <h2>Attempts for {{ patient.first_name }} {{ patient.last_name }}</h2>
+            <button id="toggle-btn-{{ patient.id }}" class="btn btn-primary" onclick="toggleContainerVisibility('toggle-btn-{{ patient.id }}', 'patient-{{ patient.id }}')">Show</button>
+            <div id="patient-{{ patient.id }}" class="patient-container" style="display: none;">
+                <ul class="list-group">
+                {% for attempt in patient.attempts.all %}
+                    <li class="list-group-item">
+                        <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
+                        <p>Status: {{ attempt.status }}</p>
+                        <p>Scheduled for: {{ attempt.scheduled_for }}</p>
+                        <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
+                    </li>
+                {% endfor %}
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No attempts available.</p>
+{% endif %}
+</container>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+    function toggleContainerVisibility(btnId, containerId) {
+        const container = document.getElementById(containerId);
+        if (container.style.display === "none") {
+            container.style.display = "block";
+        } else {
+            container.style.display = "none";
+        }
+        const button = document.getElementById(btnId);
+        button.textContent = button.textContent === "Show" ? "Hide" : "Show";
+    }
+</script>
+{% endblock %}

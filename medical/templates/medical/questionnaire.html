@@ -1,0 +1,31 @@
+{% extends "base_medical.html" %}
+
+{% block title %}{{ questionnaire.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ questionnaire.title }}</h1>
+
+<container class="container">
+<h2>Questions</h2>
+{% if questionnaire.questions.all and question_codes %}
+    {% regroup questionnaire.questions.all by question_code|slice:"0:2" as question_code_prefix_list %}
+
+    {% for question_code_prefix in question_code_prefix_list %}
+        <container class="container question-group" id="{{ question_code_prefix.grouper }}">
+        {% for qcode in question_codes %}
+            {% if qcode.question_code_prefix == question_code_prefix.grouper %}
+                <h3>{{ qcode.question_code_prefix }} {{ qcode.description }}</h3>
+            {% endif %}
+        {% endfor %}
+        <ul class="list-group">
+            {% for question in question_code_prefix.list %}
+                <li class="list-group-item">{{ question.question_code }} {{ question.question_text }}</li>
+            {% endfor %}
+        </ul>
+        </container>
+    {% endfor %}
+{% else %}
+    <p>No questions available.</p>
+{% endif %}
+</container>
+{% endblock %}

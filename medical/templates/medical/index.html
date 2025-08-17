@@ -1,0 +1,85 @@
+{% extends "base_medical.html" %}
+
+{% block title %}Medical Index{% endblock %}
+
+{% block content %}
+<h1>Medical Index</h1>
+<p>Welcome to the Medical Index page. Here you can find a list of doctors, patients, questionnaires, and attempts.</p>
+
+<container class="container">
+<h2><a href="/medical/doctors/">Doctors</a></h2>
+{% if doctor_list %}
+    <ul class="list-group">
+    {% for doctor in doctor_list %}
+            <li class="list-group-item"><h4><a href="/medical/doctor/{{ doctor.id }}/">{{ doctor.first_name }} {{ doctor.last_name }}</a></h4></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No doctors available.</p>
+{% endif %}
+</container>
+<container class="container">
+<h2><a href="/medical/patients/">Patients</a></h2>
+{% if patient_list %}
+    <ul class="list-group">
+    {% for patient in patient_list %}
+            <li class="list-group-item"><h4><a href="/medical/patient/{{ patient.id }}/">{{ patient.first_name }} {{ patient.last_name }}</a></h4></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No patients available.</p>
+{% endif %}
+</container>
+<container class="container">
+<h2><a href="/medical/questionnaires/">Questionnaires</a></h2>
+{% if questionnaire_list %}
+    <ul class="list-group">
+    {% for questionnaire in questionnaire_list %}
+            <li class="list-group-item"><h4><a href="/medical/questionnaire/{{ questionnaire.id }}/">{{ questionnaire.title }}</a></h4></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No questionnaires available.</p>
+{% endif %}
+</container>
+<container class="container">
+<h2><a href="/medical/attempts/">Attempts</a></h2>
+{% if attempt_list and patient_list %}
+    <ul class="list-group">
+    {% for patient in patient_list %}
+        <li class="list-group-item">
+            <h3>Attempts for {{ patient.first_name }} {{ patient.last_name }}</h3>
+            <button id="toggle-btn-{{ patient.id }}" class="btn btn-primary" onclick="toggleContainerVisibility('toggle-btn-{{ patient.id }}', 'patient-{{ patient.id }}')">Show</button>
+            <div id="patient-{{ patient.id }}" class="patient-container" style="display: none;">
+                <ul class="list-group">
+                {% for attempt in patient.attempts.all %}
+                    <li class="list-group-item">
+                        <h4><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire }}</a></h4>
+                        <p>Status: {{ attempt.status }}</p>
+                        <p>Scheduled for: {{ attempt.scheduled_for }}</p>
+                        <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
+                    </li>
+                {% endfor %}
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No attempts available.</p>
+{% endif %}
+</container>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+    function toggleContainerVisibility(btnId, containerId) {
+        const container = document.getElementById(containerId);
+        if (container.style.display === "none") {
+            container.style.display = "block";
+        } else {
+            container.style.display = "none";
+        }
+        const button = document.getElementById(btnId);
+        button.textContent = button.textContent === "Show" ? "Hide" : "Show";
+    }
+</script>
+{% endblock %}

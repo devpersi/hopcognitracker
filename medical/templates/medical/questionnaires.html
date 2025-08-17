@@ -1,0 +1,17 @@
+{% extends "base_medical.html" %}
+
+{% block title %}Questionnaire List{% endblock %}
+
+{% block content %}
+<container class="container">
+<h1>Questionnaires</h1>
+{% if questionnaire_list %}
+    <ul class="list-group">
+    {% for questionnaire in questionnaire_list %}
+            <li class="list-group-item"><a href="/medical/questionnaire/{{ questionnaire.id }}/">{{ questionnaire.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No questionnaires available.</p>
+{% endif %}
+{% endblock %}

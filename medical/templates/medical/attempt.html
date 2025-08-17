@@ -1,0 +1,52 @@
+{% extends "base_medical.html" %}
+
+{% block title %}Attempt Details{% endblock %}
+
+{% block content %}
+
+{% for a in attempt.patient.attempts.all %}
+    {% if a == attempt %}
+        <h1>Attempt No.{{ forloop.counter }} by {{ attempt.patient.first_name }} {{ attempt.patient.last_name }}</h1>
+    {% endif %}
+{% endfor %}
+
+<container class="container">
+    <h2>Details</h2>
+    <p><strong>Questionnaire:</strong> {{ attempt.questionnaire.title }}</p>
+    <p><strong>Status:</strong> {{ attempt.status }}</p>
+    <p><strong>Scheduled for:</strong> {{ attempt.scheduled_for }}</p>
+    <p><strong>Administered by dotor:</strong> {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
+    <p><strong>Created at:</strong> {{ attempt.created_at }}</p>
+    <p><strong>Updated at:</strong> {{ attempt.updated_at }}</p>
+</container>
+<container class="container">
+<h2>Answers</h2>
+{% if attempt.answers.all %}
+    <ul class="list-group">
+    {% for answer in attempt.answers.all %}
+        <li class="list-group-item">
+            <p><strong>{{ answer.question.question_code }}:</strong> {{ answer.question.question_text }}</p>
+            {% if answer.answer %}
+            <p>✔️</p>
+            {% else %}
+            <p>❌</p>
+            {% endif %}
+            {% if answer.is_needed %}
+            <p>Needed: ✔️ 
+            {% else %}
+            <p>Needed: ❌ 
+            {% endif %}
+            {% if answer.is_covered %}
+            Covered: ✔️</p>
+            {% else %}
+            Covered: ❌</p>
+            {% endif %}
+            <p>Notes: {{ answer.notes }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No answers available.</p>
+{% endif %}
+</container>
+{% endblock %}
