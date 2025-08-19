@@ -1,0 +1,14 @@
+{% extends "landing/base.html" %}
+
+{% block content %}
+  <h1>Profile Page</h1>
+  <p>Welcome, {{ user.username }}!</p>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    setTimeout(function() {
+    window.location.href = '/';
+    }, 10000);
+</script>
+{% endblock%}

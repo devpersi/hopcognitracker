@@ -1,8 +1,10 @@
-from .models import Doctor, Patient, Questionnaire, Attempt, QuestionCodeDescription, Answer
+from .models import Doctor, Patient, Questionnaire, Attempt, QuestionCodeDescription
 from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
-class IndexView(TemplateView):
+class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'medical/index.html'
 
     def get_context_data(self, **kwargs):
@@ -14,37 +16,37 @@ class IndexView(TemplateView):
         context['year'] = 2025
         return context
 
-class DoctorListView(ListView):
+class DoctorListView(LoginRequiredMixin, ListView):
     model = Doctor
     template_name = 'medical/doctors.html'
     context_object_name = 'doctor_list'
     ordering = ['last_name']
 
-class DoctorDetailView(DetailView):
+class DoctorDetailView(LoginRequiredMixin, DetailView):
     model = Doctor
     template_name = 'medical/doctor.html'
     context_object_name = 'doctor'
     pk_url_kwarg = 'doctor_id'
     
-class PatientListView(ListView):
+class PatientListView(LoginRequiredMixin, ListView):
     model = Patient
     template_name = 'medical/patients.html'
     context_object_name = 'patient_list'
     ordering = ['last_name']
 
-class PatientDetailView(DetailView):
+class PatientDetailView(LoginRequiredMixin, DetailView):
     model = Patient
     template_name = 'medical/patient.html'
     context_object_name = 'patient'
     pk_url_kwarg = 'patient_id'
     
-class QuestionnaireListView(ListView):
+class QuestionnaireListView(LoginRequiredMixin, ListView):
     model = Questionnaire
     template_name = 'medical/questionnaires.html'
     context_object_name = 'questionnaire_list'
     ordering = ['title']
 
-class QuestionnaireDetailView(DetailView):
+class QuestionnaireDetailView(LoginRequiredMixin, DetailView):
     model = Questionnaire
     template_name = 'medical/questionnaire.html'
     context_object_name = 'questionnaire'
@@ -55,7 +57,7 @@ class QuestionnaireDetailView(DetailView):
         context['question_codes'] = QuestionCodeDescription.objects.all()
         return context
 
-class AttemptListView(ListView):
+class AttemptListView(LoginRequiredMixin, ListView):
     model = Attempt
     template_name = 'medical/attempts.html'
     context_object_name = 'attempt_list'
@@ -66,7 +68,7 @@ class AttemptListView(ListView):
         context['patient_list'] = Patient.objects.all()
         return context
 
-class AttemptDetailView(DetailView):
+class AttemptDetailView(LoginRequiredMixin, DetailView):
     model = Attempt
     template_name = 'medical/attempt.html'
     context_object_name = 'attempt'
