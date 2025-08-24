@@ -12,17 +12,37 @@
     <p>No doctor assigned.</p>
 {% endif %}
 </container>
+
+<container class="container">
+    <h2>Details</h2>
+    <p><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</p>
+    <p><strong>Caretaker:</strong> {{ patient.caretaker.first_name }} {{ patient.caretaker.last_name }}</p>
+    <p><strong>Relationship:</strong> {{ patient.caretaker_relationship }}</p>
+    <p><strong>Phone Number:</strong> {{ patient.caretaker_phone_number }}</p>
+    <p><strong>Email:</strong> {{ patient.caretaker_emal }}</p>
+    <p><strong>Phone Number:</strong> {{ patient.phone_number }}</p>
+    <p><strong>Date Registered:</strong> {{ patient.created_at }}</p>
+</container>
+
     
 <container class="container">
-<h2>Attempts</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Attempts</h2>
+    <a id="add-btn-attempt" class="btn btn-primary" href="/medical/attempts/create" title="Create Attempt">➕</a>
+</div>
 {% if patient.attempts.all %}
     <ul class="list-group">
     {% for attempt in patient.attempts.all %}
             <li class="list-group-item">
-                <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
-                <p>Status: {{ attempt.status }}</p>
-                <p>Scheduled for: {{ attempt.scheduled_for }}</p>
-                <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
+                    <a id="edit-btn-atttempt-{{ attempt.id }}" class="btn btn-primary" href="/medical/attempts/edit/{{ attempt.id }}/" title="Edit Attempt">✏️</a>
+                </div>
+                <div class="d-flex flex-column mb-2">    
+                    <p>Status: {{ attempt.status }}</p>
+                    <p>Scheduled for: {{ attempt.scheduled_for }}</p>
+                    <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
+                </div>
             </li>
     {% endfor %}
     </ul>

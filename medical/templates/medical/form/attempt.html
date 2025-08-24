@@ -1,0 +1,35 @@
+{% extends "medical/base_medical.html" %}
+
+{% block title %}Attempt Form{% endblock %}
+
+{% block content %}
+  <h1>Attempt Form</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h3>Answers</h3>
+    {{ answer_formset.management_form }}
+    {% for af in answer_formset %}
+        <div class="answer-block">
+            <p><strong>{{ af.instance.question.question_code }} {{ af.instance.question.question_text }}</strong></p>
+            {{ af.as_p }}
+        </div>
+    {% endfor %}
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-secondary" href="/medical/patients/">Cancel</button>
+  </form>
+{% endblock %}
+
+{% block extra_scripts %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#id_scheduled_for", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            time_24hr: true,
+        });
+    </script>
+{% endblock %}

@@ -3,14 +3,41 @@
 {% block title %}{{ doctor.last_name }} Doctor Details{% endblock %}
 
 {% block content %}
+
 <h1>Doctor: {{ doctor.first_name }} {{ doctor.last_name }}</h1>
+<container class="container">
+    <h2>Details</h2>
+    <p><strong>Email:</strong> {{ doctor.email }}</p>
+    <p><strong>Phone Number:</strong> {{ doctor.phone_number }}</p>
+    <p><strong>Date Registered:</strong> {{ doctor.created_at }}</p>
+</container>
 
 <container class="container">
-<h2>Patients</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Patients</h2>
+    <a id="add-btn-patient" class="btn btn-primary" href="/medical/patients/create" title="Create Patient">➕</a>
+</div>
 {% if doctor.patients.all %}
     <ul class="list-group">
     {% for patient in doctor.patients.all %}
-            <li class="list-group-item"><a href="/medical/patient/{{ patient.id }}/">{{ patient.first_name }} {{ patient.last_name }}</a></li>
+        <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2><a href="/medical/patient/{{ patient.id }}/">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
+                <a id="edit-btn-patient-{{ patient.id }}" class="btn btn-primary" href="/medical/patients/edit/{{ patient.id }}/" title="Edit Patient">✏️</a>
+            </div>
+            <div class="d-flex flex-column mb-2">
+                <p>Date of birth: {{ patient.date_of_birth }}</p>
+
+                {% if patient.attempts.first.scheduled_for %}
+                    <p>First Attempt: {{ patient.attempts.first.scheduled_for }}</p>
+                {% elif patient.attempts.first.created_at %}
+                    <p>First Attempt: {{ patient.attempts.first.created_at }}</p>
+                {% else%}
+                    <p>First Attempt: N/A</p>
+                {% endif %}
+                <p>Total attempts: {{ patient.attempts.count }}</p>
+            </div>
+        </li>
     {% endfor %}
     </ul>
 {% else %}

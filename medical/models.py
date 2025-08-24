@@ -76,6 +76,11 @@ class Answer(models.Model):
     notes = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['question', 'attempt'], name='unique_question_attempt')
+        ]
 
     def __str__(self):
         return f"{self.question.question_code} Answer to {self.question.question_text[:10]}... for {self.attempt.patient.last_name}"

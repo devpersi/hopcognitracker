@@ -9,7 +9,6 @@
         <h1>Attempt No.{{ forloop.counter }} by {{ attempt.patient.first_name }} {{ attempt.patient.last_name }}</h1>
     {% endif %}
 {% endfor %}
-
 <container class="container">
     <h2>Details</h2>
     <p><strong>Questionnaire:</strong> {{ attempt.questionnaire.title }}</p>
@@ -19,8 +18,12 @@
     <p><strong>Created at:</strong> {{ attempt.created_at }}</p>
     <p><strong>Updated at:</strong> {{ attempt.updated_at }}</p>
 </container>
+
 <container class="container">
-<h2>Answers</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Questions and Answers</h2>
+    <a id="edit-btn-attempt" class="btn btn-primary" href="/medical/attempts/edit/{{ attempt.id }}/" title="Edit Attempt">✏️</a>
+</div>
 {% if attempt.answers.all %}
     <ul class="list-group">
     {% for answer in attempt.answers.all %}

@@ -65,7 +65,7 @@ class AttemptListView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['patient_list'] = Patient.objects.all()
+        context['patient_list'] = Patient.objects.order_by('last_name')
         return context
 
 class AttemptDetailView(LoginRequiredMixin, DetailView):

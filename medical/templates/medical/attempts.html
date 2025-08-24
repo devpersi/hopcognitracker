@@ -2,19 +2,27 @@
 
 {% block title %}Attempt List{% endblock %}
 
-{% block content %}<container class="container">
-<h1><a href="/medical/attempts/">Attempts</a></h1>
+{% block content %}
+<container class="container">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Attempts</h1>
+    <a id="add-btn-attempt" class="btn btn-primary" href="/medical/attempts/create" title="Create Attempt">➕</a>
+</div>
 {% if attempt_list and patient_list %}
     <ul class="list-group">
     {% for patient in patient_list %}
+        {% if patient.attempts.all %}
         <li class="list-group-item">
             <h2>Attempts for {{ patient.first_name }} {{ patient.last_name }}</h2>
             <button id="toggle-btn-{{ patient.id }}" class="btn btn-primary" onclick="toggleContainerVisibility('toggle-btn-{{ patient.id }}', 'patient-{{ patient.id }}')">Show</button>
-            <div id="patient-{{ patient.id }}" class="patient-container" style="display: none;">
+            <div id="patient-{{ patient.id }}" class="patient-container mb-2" style="display: none;">
                 <ul class="list-group">
                 {% for attempt in patient.attempts.all %}
                     <li class="list-group-item">
-                        <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
+                            <a id="edit-btn-atttempt-{{ attempt.id }}" class="btn btn-primary" href="/medical/attempts/edit/{{ attempt.id }}/" title="Edit Attempt">✏️</a>
+                        </div>
                         <p>Status: {{ attempt.status }}</p>
                         <p>Scheduled for: {{ attempt.scheduled_for }}</p>
                         <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
@@ -22,6 +30,11 @@
                 {% endfor %}
             </div>
         </li>
+        {% else %}
+        <li class="list-group-item">
+            <h2>No attempts for {{ patient.first_name }} {{ patient.last_name }}</h2>
+        </li>
+        {% endif %}
     {% endfor %}
     </ul>
 {% else %}

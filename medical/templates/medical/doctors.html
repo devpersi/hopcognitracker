@@ -1,18 +1,26 @@
-{% extends "medical/base_medical.html" %}
+{% extends "medical/base_medical.html" %} 
 
-{% block title %}Doctor List{% endblock %}
+{% block title %}Doctor List{% endblock %} 
 
 {% block content %}
 <container class="container">
-<h1>Doctors</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Doctors</h1>
+    <a id="add-btn-doctor" class="btn btn-primary" href="/medical/doctors/create" title="Create Doctor">➕</a>
+</div>
 {% if doctor_list %}
-    <ul class="list-group">
-    {% for doctor in doctor_list %}
-            <li class="list-group-item"><a href="/medical/doctor/{{ doctor.id }}/">{{ doctor.first_name }} {{ doctor.last_name }}</a></li>
-    {% endfor %}
-    </ul>
+<ul class="list-group">
+{% for doctor in doctor_list %}
+<li class="list-group-item">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2><a href="/medical/doctor/{{ doctor.id }}/">{{ doctor.first_name }} {{ doctor.last_name }}</a></h2>
+        <a id="edit-btn-doctor-{{ doctor.id }}" class="btn btn-primary" href="/medical/doctors/edit/{{ doctor.id }}/" title="Edit Doctor">✏️</a>
+    </div>
+</li>
+{% endfor %}
+</ul>
 {% else %}
-    <p>No doctors available.</p>
+<p>No doctors available.</p>
 {% endif %}
 </container>
 {% endblock %}

@@ -47,14 +47,15 @@
 {% if attempt_list and patient_list %}
     <ul class="list-group">
     {% for patient in patient_list %}
+        {% if patient.attempts.all %}
         <li class="list-group-item">
-            <h3>Attempts for {{ patient.first_name }} {{ patient.last_name }}</h3>
+            <h2>Attempts for {{ patient.first_name }} {{ patient.last_name }}</h2>
             <button id="toggle-btn-{{ patient.id }}" class="btn btn-primary" onclick="toggleContainerVisibility('toggle-btn-{{ patient.id }}', 'patient-{{ patient.id }}')">Show</button>
             <div id="patient-{{ patient.id }}" class="patient-container" style="display: none;">
                 <ul class="list-group">
                 {% for attempt in patient.attempts.all %}
                     <li class="list-group-item">
-                        <h4><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire }}</a></h4>
+                        <h3><a href="/medical/attempt/{{ attempt.id }}/">Attempt No.{{ forloop.counter }} - {{ attempt.questionnaire.title }}</a></h3>
                         <p>Status: {{ attempt.status }}</p>
                         <p>Scheduled for: {{ attempt.scheduled_for }}</p>
                         <p>Administered by: {{ attempt.administered_by_doctor.first_name }} {{ attempt.administered_by_doctor.last_name }}</p>
@@ -62,6 +63,11 @@
                 {% endfor %}
             </div>
         </li>
+        {% else %}
+        <li class="list-group-item">
+            <h2>No attempts for {{ patient.first_name }} {{ patient.last_name }}</h2>
+        </li>
+        {% endif %}
     {% endfor %}
     </ul>
 {% else %}
