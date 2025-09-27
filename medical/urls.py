@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from . import views_create_edit
 
@@ -43,4 +43,8 @@ urlpatterns = [
     path('attempts/create', views_create_edit.AttemptCreateView.as_view(), name='attempt_create'),
     # ex: /medical/attempts/edit/5/
     path('attempts/edit/<int:attempt_id>/', views_create_edit.AttemptUpdateView.as_view(), name='attempt_edit'),
+    
+    # api urls
+    # ex: /medical/api
+    path('api/', include('medical.api.urls')),
 ]

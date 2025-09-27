@@ -21,8 +21,11 @@ HopCognitracker is a web-based application designed to facilitate the management
 
 - The project is optimized for the Greek translation of "The Johns Hopkins Dementia Care Needs Assessment (JHDCNA) MIND Streamlined-CLINICAL" questionnaire.
 - There's simple auth, a dashboard showing newest additions to doctors, patients, questionnaires and attempts.
-- List and detail django views and forms make up the majority of the functionality.
-- Admin panel and user created attempts automatically populate the relevant answer models for the selected questionnaire.
+- List and detail django views and forms make up the majority of the functionality, using django html templates and a bit of bootstrap.
+- The api allows external interfaces to read and write to the database.
+- The django admin panel allows the management of models not handled by the templates or the api.
+- Admin panel, api and user created attempts automatically populate the relevant answer models for the selected questionnaire.
+
 
 ## Requirements
 - [Python](https://www.python.org/downloads/)
@@ -79,25 +82,29 @@ Password (again): *********
 Superuser created successfully.
 ```
 
-Log in to your account and you are met with a landing page asking you to click to see the medical index.  
+Log in to your newly created account and you are met with a landing page asking you to click to see the medical index.  
 In the medical index, There are lists of the most recent Doctors, Patients, Questionnaires and Attempts.  
 Clicking the name of a list e.g. Doctors will show the full lists with the ability to edit or create more entries.  
 In order to see all this, you need to populate the database with models. For now, you can  
 - add doctors and patients
 - visit the [admin](http://127.0.0.1/admin) dashboard provided by django and 
-- add a questionnaire along with questions pointing to it with their foreign key
-- go back to the attempts and you will be able to create attempts based on the newly created questionnaire, each with its own set of answers
+- add a questionnaire then add questions pointing to it - a questionnaire is required for creating questions
+- go back to the attempts and you will be able to create attempts based on the newly created questionnaire, each with its own set of answers, one for each question - a questionnaire, a patient and a doctor are required for creating an attempt
 
-
-
+You can then visit the [api](http://127.0.0.1/medical/api/) to see the structure of requests.
+A pre-populated example sqlite database can be provided upon request.
 
 ## Structure
 --------
 
 All important files are in the medical directory:
 
-- medical
-  - templates
+- medical/
+  - templates/
+    - form/
+      - attempt.html
+      - doctor.html
+      - patient.html
     - base_medical.html
     - attempt.html
     - attempts.html
@@ -115,7 +122,11 @@ All important files are in the medical directory:
   - urls.py
   - views.py
   - views_create_edit.py
-  - services
+  - api/
+    - serializers.py
+    - urls.py
+    - views.py
+  - services/
     - attempt_services.py
 
 
