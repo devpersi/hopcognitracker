@@ -8,6 +8,6 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary" type="submit">Submit</button>
-    <button class="btn btn-secondary" href="/medical/patients/">Cancel</button>
+    <button class="btn btn-secondary" onclick="window.location.href='/medical/doctors/'">Cancel</button>
   </form>
 {% endblock %}

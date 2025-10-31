@@ -118,7 +118,6 @@ All important files are in the medical directory:
   - admin.py
   - forms.py
   - models.py
-  - forms.py
   - urls.py
   - views.py
   - views_create_edit.py
@@ -133,4 +132,5 @@ All important files are in the medical directory:
 ## Contributing
 ------------
 
-\#TBD
+All pull requests will be reviewed. If you write one I will be happy to merge it. 
+If you find any issues, please open an issue and I might fix it.

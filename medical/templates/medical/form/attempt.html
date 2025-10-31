@@ -8,17 +8,19 @@
     {% csrf_token %}
     {{ form.as_p }}
 
+    {% if answer_formset %}
     <h3>Answers</h3>
     {{ answer_formset.management_form }}
-    {% for af in answer_formset %}
+    {% for answer in answer_formset %}
         <div class="answer-block">
-            <p><strong>{{ af.instance.question.question_code }} {{ af.instance.question.question_text }}</strong></p>
-            {{ af.as_p }}
+            <p><strong>{{ answer.instance.question.question_code }} {{ answer.instance.question.question_text }}</strong></p>
+            {{ answer.as_p }}
         </div>
     {% endfor %}
+    {% endif %}
 
     <button class="btn btn-primary" type="submit">Submit</button>
-    <button class="btn btn-secondary" href="/medical/patients/">Cancel</button>
+    <button class="btn btn-secondary" onclick="window.location.href='/medical/attempts/'">Cancel</button>
   </form>
 {% endblock %}
 
